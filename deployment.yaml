@@ -1,0 +1,19 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Docker@2
+  inputs:
+    containerRegistry: 'your-acr-name.azurecr.io'
+    repository: 'your-docker-image-name'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: 'latest'
+- task: AzureWebAppContainer@1
+  inputs:
+    azureSubscription: 'your-azure-subscription'
+    appName: 'your-web-app-name'
+    imageName: 'your-acr-name.azurecr.io/your-docker-image-name'
